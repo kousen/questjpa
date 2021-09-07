@@ -18,7 +18,7 @@ public class Quest {
     @OneToMany(mappedBy = "quest", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Task> tasks = new HashSet<>();
 
-    @OneToMany(mappedBy = "quest", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "quest")
     private Set<Knight> knights = new HashSet<>();
 
     public Quest() {

@@ -20,7 +20,7 @@ class QuestRepositoryTest {
 
     @Test
     void defaultQuestAndTasks() {
-        Quest quest = questRepository.findByName("The quest for the Holy Grail");
+        Quest quest = questRepository.findByName("Seek the Grail");
         Set<Task> tasks = quest.getTasks();
         assertEquals(3, tasks.size());
         tasks.forEach(task -> assertEquals(quest.getName(), task.getQuest().getName()));
@@ -29,10 +29,9 @@ class QuestRepositoryTest {
     @Test
     void cascadeDeleteWorks(@Autowired TaskRepository taskRepository) {
         assertEquals(1, questRepository.count());
-        Quest quest = questRepository.findByName("The quest for the Holy Grail");
+        Quest quest = questRepository.findByName("Seek the Grail");
         assertEquals(3, taskRepository.count());
         questRepository.delete(quest);
         assertEquals(0, taskRepository.count());
-
     }
 }

@@ -12,10 +12,10 @@ public class Knight {
     private Title title;
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Quest quest;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Castle castle;
 
     public Knight() {

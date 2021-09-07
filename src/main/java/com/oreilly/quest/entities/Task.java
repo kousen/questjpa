@@ -29,11 +29,10 @@ public class Task {
 
     @FutureOrPresent
     private LocalDate startDate = LocalDate.now();
-
     private LocalDate endDate = LocalDate.now();
     private boolean completed;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Quest quest;
 
     @CreatedDate

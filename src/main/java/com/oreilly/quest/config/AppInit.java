@@ -16,7 +16,7 @@ public class AppInit {
                                         @Autowired CastleRepository cr) {
         return args -> {
             if (qr.count() == 0) {
-                Quest quest = new Quest("The quest for the Holy Grail");
+                Quest quest = new Quest("Seek the Grail");
                 quest.addToTasks(new Task("Answer the bridgekeeper"))
                         .addToTasks(new Task("Bring out your dead"))
                         .addToTasks(new Task("Defeat the Black Knight"));

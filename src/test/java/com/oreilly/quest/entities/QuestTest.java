@@ -19,7 +19,7 @@ class QuestTest {
 
     @Test
     void validQuest() {
-        Quest quest = new Quest("The quest for the Holy Grail");
+        Quest quest = new Quest("Seek the Grail");
         Set<ConstraintViolation<Quest>> violations = validator.validate(quest);
         assertEquals(0, violations.size());
     }
