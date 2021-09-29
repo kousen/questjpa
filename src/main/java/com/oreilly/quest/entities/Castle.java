@@ -1,5 +1,7 @@
 package com.oreilly.quest.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -20,6 +22,7 @@ public class Castle {
     private double longitude;
 
     @OneToMany(mappedBy = "castle", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference("knight-castle")
     private Set<Knight> knights = new HashSet<>();
 
     public Castle() {

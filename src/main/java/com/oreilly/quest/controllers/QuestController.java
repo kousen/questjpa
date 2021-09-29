@@ -8,20 +8,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/quest")
 public class QuestController {
-    private QuestService service;
+    private final QuestService service;
 
     @Autowired
     public QuestController(QuestService service) {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("{name}")
     public Quest getQuestByName(
             @RequestParam(defaultValue = "Seek the Grail",
                     required = false) String name) {
         return service.findByName(name);
+    }
+
+    @GetMapping
+    public List<Quest> findAllQuests() {
+        return service.findAll();
     }
 }

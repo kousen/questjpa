@@ -1,5 +1,7 @@
 package com.oreilly.quest.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -13,9 +15,11 @@ public class Knight {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference("knight-quest")
     private Quest quest;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference("knight-castle")
     private Castle castle;
 
     public Knight() {

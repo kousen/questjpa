@@ -1,5 +1,6 @@
 package com.oreilly.quest.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -33,6 +34,7 @@ public class Task {
     private boolean completed;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Quest quest;
 
     @CreatedDate

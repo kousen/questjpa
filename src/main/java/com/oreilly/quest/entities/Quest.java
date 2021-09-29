@@ -1,8 +1,12 @@
 package com.oreilly.quest.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Quest {
@@ -12,13 +16,16 @@ public class Quest {
     @NotBlank(message = "Quests must have a name")
     private String name;
 
-    @Version
+    @Version  // for optimistic locking
     private long version;
 
-    @OneToMany(mappedBy = "quest", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "quest", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Set<Task> tasks = new HashSet<>();
 
-    @OneToMany(mappedBy = "quest")
+    @OneToMany(mappedBy = "quest", fetch = FetchType.LAZY)
+    @JsonManagedReference("knight-quest")
     private Set<Knight> knights = new HashSet<>();
 
     public Quest() {
@@ -72,6 +79,14 @@ public class Quest {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public Set<Knight> getKnights() {
+        return knights;
+    }
+
+    public void setKnights(Set<Knight> knights) {
+        this.knights = knights;
     }
 
     @Override
