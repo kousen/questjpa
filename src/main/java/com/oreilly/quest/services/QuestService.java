@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -20,7 +21,19 @@ public class QuestService {
         return questRepository.findAll();
     }
 
-    public Quest findByName(String name) {
+    public Optional<Quest> findByName(String name) {
         return questRepository.findByName(name);
+    }
+
+    public Optional<Quest> findById(Long id) {
+        return questRepository.findById(id);
+    }
+
+    public Optional<Quest> findByIdWithTasks(Long id) {
+        return questRepository.findQuestById(id);
+    }
+
+    public void deleteQuest(Quest quest) {
+        questRepository.delete(quest);
     }
 }

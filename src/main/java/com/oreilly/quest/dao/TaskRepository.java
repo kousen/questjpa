@@ -13,7 +13,7 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     List<Task> findAllByPriorityLessThanAndStartDateBetween(int priority, LocalDate first, LocalDate second);
 
     // NOTE: when returning Streams, be sure to call using try-with-resources
-    @Query("select t from Task t")
+    @Query("select t from Task t")  // JPQL --> Java Persistence Query Language
     Stream<Task> findAllByCustomQueryAndStream();
 
     Stream<Task> readAllByNameNotNull();

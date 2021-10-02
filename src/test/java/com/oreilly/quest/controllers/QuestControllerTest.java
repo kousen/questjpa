@@ -8,6 +8,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class QuestControllerTest {
@@ -18,10 +19,17 @@ class QuestControllerTest {
     void getAllQuests() {
         ResponseEntity<Quest[]> entity = template.getForEntity("/quest", Quest[].class);
         Quest[] quests = entity.getBody();
+        assertNotNull(quests);
         assertEquals(1, quests.length);
         Quest quest = quests[0];
         System.out.println(quest);
         System.out.println(quest.getTasks());
         System.out.println(quest.getKnights());
+    }
+
+    @Test
+    void getQuestByName() {
+        Quest quest = template.getForObject("/quest/Seek+the+grail", Quest.class);
+        assertEquals("Seek the Grail", quest.getName());
     }
 }

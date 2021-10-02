@@ -25,7 +25,7 @@ public class Task {
     private String name;
 
     @Range(min = 1, max = 5,
-        message = "{validatedValue} must be between ${min} and ${max}, inclusive")
+        message = "${validatedValue} must be between {min} and {max}, inclusive")
     private int priority = 3;
 
     @FutureOrPresent

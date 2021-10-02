@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/quest")
@@ -24,7 +25,7 @@ public class QuestController {
     public Quest getQuestByName(
             @RequestParam(defaultValue = "Seek the Grail",
                     required = false) String name) {
-        return service.findByName(name);
+        return service.findByName(name).orElseThrow(NoSuchElementException::new);
     }
 
     @GetMapping

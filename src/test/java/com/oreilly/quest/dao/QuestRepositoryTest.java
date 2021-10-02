@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +21,9 @@ class QuestRepositoryTest {
 
     @Test
     void defaultQuestAndTasks() {
-        Quest quest = questRepository.findByName("Seek the Grail");
+        Optional<Quest> optionalQuest = questRepository.findByName("Seek the Grail");
+        assertTrue(optionalQuest.isPresent());
+        Quest quest = optionalQuest.get();
         Set<Task> tasks = quest.getTasks();
         assertEquals(3, tasks.size());
         tasks.forEach(task -> assertEquals(quest.getName(), task.getQuest().getName()));
@@ -29,9 +32,17 @@ class QuestRepositoryTest {
     @Test
     void cascadeDeleteWorks(@Autowired TaskRepository taskRepository) {
         assertEquals(1, questRepository.count());
-        Quest quest = questRepository.findByName("Seek the Grail");
+        Optional<Quest> optionalQuest = questRepository.findByName("Seek the Grail");
+        assertTrue(optionalQuest.isPresent());
+        Quest quest = optionalQuest.get();
         assertEquals(3, taskRepository.count());
         questRepository.delete(quest);
         assertEquals(0, taskRepository.count());
+    }
+
+    @Test
+    void eagerFetchOfTasksWithQuest() {
+        Optional<Quest> optionalQuest = questRepository.findQuestById(1L);
+        assertTrue(optionalQuest.isPresent());
     }
 }
