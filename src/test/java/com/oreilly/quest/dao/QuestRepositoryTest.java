@@ -1,9 +1,12 @@
 package com.oreilly.quest.dao;
 
-import com.oreilly.quest.entities.Quest;
-import com.oreilly.quest.entities.Task;
+import com.oreilly.quest.entities.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
@@ -13,11 +16,24 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+//@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 class QuestRepositoryTest {
     @Autowired
     private QuestRepository questRepository;
+
+    private Quest quest;
+
+    @BeforeEach
+    void setUp(@Autowired QuestRepository qr) {
+        quest = new Quest("Seek the Grail");
+        quest.addToTasks(new Task("Answer the bridgekeeper"))
+                .addToTasks(new Task("Bring out your dead"))
+                .addToTasks(new Task("Defeat the Black Knight"));
+        quest = qr.save(quest);
+    }
 
     @Test
     void defaultQuestAndTasks() {
@@ -42,7 +58,8 @@ class QuestRepositoryTest {
 
     @Test
     void eagerFetchOfTasksWithQuest() {
-        Optional<Quest> optionalQuest = questRepository.findQuestById(1L);
+        Optional<Quest> optionalQuest = questRepository.findQuestById(quest.getId());
         assertTrue(optionalQuest.isPresent());
+        assertEquals(3, quest.getTasks().size());
     }
 }

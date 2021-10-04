@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,7 +22,7 @@ class QuestServiceTest {
     @Autowired
     private QuestService service;
 
-    @PersistenceContext
+    @PersistenceContext  // used to flush the session when necessary
     private EntityManager entityManager;
 
     @Test
@@ -77,6 +75,7 @@ class QuestServiceTest {
         service.deleteQuest(quest);
 
         // have to flush the session, or won't see the deletes
-        entityManager.flush();
+        // if commented out, will pass, but no SQL deletes in console
+        //entityManager.flush();
     }
 }

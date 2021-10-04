@@ -21,7 +21,7 @@ public class Quest {
 
     @OneToMany(mappedBy = "quest", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference  // don't follow this when serializing
     private Set<Task> tasks = new HashSet<>();
 
     @OneToMany(mappedBy = "quest", fetch = FetchType.LAZY)
