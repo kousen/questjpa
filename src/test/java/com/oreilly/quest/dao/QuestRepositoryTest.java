@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import java.util.Optional;
@@ -25,6 +26,9 @@ class QuestRepositoryTest {
     private QuestRepository questRepository;
 
     private Quest quest;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @BeforeEach
     void setUp(@Autowired QuestRepository qr) {
@@ -43,6 +47,15 @@ class QuestRepositoryTest {
         Set<Task> tasks = quest.getTasks();
         assertEquals(3, tasks.size());
         tasks.forEach(task -> assertEquals(quest.getName(), task.getQuest().getName()));
+    }
+
+    @Test
+    void changeNameOfQuest() {
+        Optional<Quest> optionalQuest = questRepository.findByName("Seek the Grail");
+        assertTrue(optionalQuest.isPresent());
+        Quest quest = optionalQuest.get();
+        quest.setName("Seek the Holy Grail");
+        entityManager.flush();
     }
 
     @Test
