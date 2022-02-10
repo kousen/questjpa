@@ -76,6 +76,6 @@ class QuestServiceTest {
 
         // have to flush the session, or won't see the deletes
         // if commented out, will pass, but no SQL deletes in console
-        //entityManager.flush();
+        entityManager.flush();
     }
 }
