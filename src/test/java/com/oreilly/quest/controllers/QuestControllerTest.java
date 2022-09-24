@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -29,7 +31,10 @@ class QuestControllerTest {
 
     @Test
     void getQuestByName() {
-        Quest quest = template.getForObject("/quest/Seek+the+grail", Quest.class);
-        assertEquals("Seek the Grail", quest.getName());
+        ResponseEntity<Quest> entity = template.getForEntity("/quest/Seek+the+Grail", Quest.class);
+        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Quest quest = entity.getBody();
+        assertThat(quest).isNotNull();
+        assertThat(quest.getName()).isEqualTo("Seek the Grail");
     }
 }

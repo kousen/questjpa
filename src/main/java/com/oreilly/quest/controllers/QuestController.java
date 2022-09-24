@@ -3,13 +3,12 @@ package com.oreilly.quest.controllers;
 import com.oreilly.quest.entities.Quest;
 import com.oreilly.quest.services.QuestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/quest")
@@ -22,10 +21,9 @@ public class QuestController {
     }
 
     @GetMapping("{name}")
-    public Quest getQuestByName(
-            @RequestParam(defaultValue = "Seek the Grail",
-                    required = false) String name) {
-        return service.findByName(name).orElseThrow(NoSuchElementException::new);
+    public ResponseEntity<Quest> getQuestByName(@PathVariable String name) {
+        String questName = URLDecoder.decode(name, StandardCharsets.UTF_8);
+        return ResponseEntity.of(service.findByName(questName));
     }
 
     @GetMapping
