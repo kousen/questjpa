@@ -24,7 +24,7 @@ public class Quest {
     @JsonManagedReference  // don't follow this when serializing
     private Set<Task> tasks = new HashSet<>();
 
-    @OneToMany(mappedBy = "quest", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "quest", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference("knight-quest")
     private Set<Knight> knights = new HashSet<>();
 
