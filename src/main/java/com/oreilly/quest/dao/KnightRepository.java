@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface KnightRepository extends JpaRepository<Knight,Long> {
-    @EntityGraph(attributePaths = "quest.tasks",
-        type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(attributePaths = "quest.tasks")
     List<Knight> findWithGraphByTitle(Title title);
 }
